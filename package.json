@@ -1,0 +1,11 @@
+{
+  "name": "file-upload-service",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": "git@github.com:vavra7/file-upload-service.git",
+  "author": "Tomáš Vavřinka <email@tomasvavrinka.cz>"
+}

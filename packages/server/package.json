@@ -1,0 +1,19 @@
+{
+  "name": "@file-upload-service/server",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --no-notify --respawn src/index",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "ts-node-dev": "^1.0.0-pre.55",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

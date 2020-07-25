@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
+  "repository": "git@github.com:vavra7/file-upload-service.git",
+  "author": "Tomáš Vavřinka <email@tomasvavrinka.cz>",
   "workspaces": [
     "packages/*"
   ],
-  "repository": "git@github.com:vavra7/file-upload-service.git",
-  "author": "Tomáš Vavřinka <email@tomasvavrinka.cz>"
+  "scripts": {
+    "dev": "concurrently 'cd packages/server && yarn dev' 'cd packages/client && yarn dev'"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
 }

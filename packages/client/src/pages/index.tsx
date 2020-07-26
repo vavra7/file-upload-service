@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import axios from 'axios';
-import { uploadRequest } from '../api';
+import { imageUploadRequest } from '../api';
 import { useState, FormEvent, ChangeEvent } from 'react';
 
 const index: NextPage = () => {
@@ -16,7 +16,17 @@ const index: NextPage = () => {
     e.preventDefault();
     console.log('file', file);
 
-    axios(uploadRequest)
+    const bodyFormData = new FormData();
+
+    bodyFormData.append('file', file as any);
+
+    const request = {
+      ...imageUploadRequest,
+      onUploadProgress: (progressEvent: any) => console.log(progressEvent.loaded),
+      data: bodyFormData
+    };
+
+    axios(request)
       .then(res => {
         console.log(res);
       })
@@ -30,7 +40,8 @@ const index: NextPage = () => {
       <form onSubmit={handleSubmit}>
         <h1>File Upload</h1>
 
-        <input type="file" onChange={onFileSelect} />
+        <label htmlFor="file">File: </label>
+        <input id="file" type="file" onChange={onFileSelect} accept="image/*" />
 
         <button type="submit">Submit</button>
       </form>

@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
-export const uploadRequest: AxiosRequestConfig = {
+export const imageUploadRequest: AxiosRequestConfig = {
+  url: 'http://localhost:4000/image-upload',
   method: 'POST',
-  url: 'http://localhost:4000/upload'
+  headers: { 'Content-Type': 'multipart/form-data' }
 };

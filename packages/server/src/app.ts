@@ -1,8 +1,7 @@
 import express from 'express';
 import routes from './routes';
 import cors from 'cors';
-
-const PORT = 4000;
+import { PORT } from './config';
 
 const app = express();
 

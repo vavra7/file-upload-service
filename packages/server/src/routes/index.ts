@@ -13,7 +13,8 @@ const upload = multer({
 
 router.get('/', (req, res) => res.send('Home'));
 router.post('/image-upload', upload.single('file'), (req, res) => {
-  console.log('after', req.file);
+  // console.log('after', (req.file as any).convertOutputInfo);
+  // console.log('after', req.file);
 
   res.send('done');
 });

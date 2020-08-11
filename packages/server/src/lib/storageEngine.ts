@@ -5,14 +5,15 @@ import path from 'path';
 import { v4 } from 'uuid';
 import concat from 'concat-stream';
 import sharp, { Sharp, Metadata } from 'sharp';
+import { Buckets, URL } from '../config';
 
-export interface Breakpoint {
+export interface SizeInput {
   code: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   resizeArgs: number[];
 }
 
-export interface BreakpointOutputInfo {
-  code: Breakpoint['code'];
+export interface SizeOutputInfo {
+  code: SizeInput['code'];
   width: number;
   height: number;
   size: number;
@@ -24,17 +25,17 @@ export interface ConvertOutputInfo {
   id: string;
   originalName: string;
   mimeType: string;
-  breakpoints: {
-    xs?: BreakpointOutputInfo;
-    sm?: BreakpointOutputInfo;
-    md?: BreakpointOutputInfo;
-    lg?: BreakpointOutputInfo;
-    xl?: BreakpointOutputInfo;
-    full: BreakpointOutputInfo;
+  sizes: {
+    xs?: SizeOutputInfo;
+    sm?: SizeOutputInfo;
+    md?: SizeOutputInfo;
+    lg?: SizeOutputInfo;
+    xl?: SizeOutputInfo;
+    full: SizeOutputInfo;
   };
 }
 
-const BREAKPOINTS: Breakpoint[] = [
+const SIZES: SizeInput[] = [
   {
     code: 'xs',
     resizeArgs: [150, 150]
@@ -64,8 +65,8 @@ const BREAKPOINTS: Breakpoint[] = [
 const OUTPUT_FORMATS = ['jpeg', 'png'];
 
 class DiskStorage implements StorageEngine {
-  private destination = 'public/tmp';
-  private breakpoints: Breakpoint[] = [];
+  private destination = `public/${Buckets.Temporary}`;
+  private sizes: SizeInput[] = [];
   private outputFormat = 'png';
   private convertToPng = false;
   private imageId;
@@ -76,19 +77,23 @@ class DiskStorage implements StorageEngine {
     }
   }
 
-  private getImagePath(code: Breakpoint['code']) {
+  private getImageDiskPath(code: SizeInput['code']) {
     return `${path.join(this.destination, this.imageId)}-${code}.${this.outputFormat}`;
   }
 
-  private getImageName(code: Breakpoint['code']) {
+  private getImageName(code: SizeInput['code']) {
     return `${this.imageId}-${code}.${this.outputFormat}`;
   }
 
+  private getImageUrl(name: string) {
+    return `${URL}/${Buckets.Temporary}/${name}`;
+  }
+
   private setBreakpoints(imageMeta: Metadata) {
-    this.breakpoints = BREAKPOINTS.filter(breakpoint => {
+    this.sizes = SIZES.filter(size => {
       const originalWidth = imageMeta.width!;
 
-      if (breakpoint.code !== 'full' && originalWidth <= breakpoint.resizeArgs[0]) {
+      if (size.code !== 'full' && originalWidth <= size.resizeArgs[0]) {
         return false;
       } else {
         return true;
@@ -112,9 +117,11 @@ class DiskStorage implements StorageEngine {
     }
   }
 
-  private async convertImage(image: Sharp, breakpoint: Breakpoint) {
+  private async convertImage(image: Sharp, breakpoint: SizeInput) {
     const code = breakpoint.code;
-    const imagePath = this.getImagePath(code);
+    const name = this.getImageName(code);
+    const imageDiskPath = this.getImageDiskPath(code);
+    const url = this.getImageUrl(name);
 
     let converted = image.resize(...breakpoint.resizeArgs);
 
@@ -122,17 +129,17 @@ class DiskStorage implements StorageEngine {
       converted = converted.png();
     }
 
-    return converted.toFile(imagePath).then(outputInfo => {
-      const breakpointOutputInfo: BreakpointOutputInfo = {
-        name: this.getImageName(code),
+    return converted.toFile(imageDiskPath).then(outputInfo => {
+      const sizeOutputInfo: SizeOutputInfo = {
+        name,
         code: code,
         width: outputInfo.width,
         height: outputInfo.height,
         size: outputInfo.size,
-        url: 'TODO some url'
+        url
       };
 
-      return breakpointOutputInfo;
+      return sizeOutputInfo;
     });
   }
 
@@ -141,7 +148,7 @@ class DiskStorage implements StorageEngine {
    */
   public _handleFile: StorageEngine['_handleFile'] = (req, file, cb) => {
     const write = concat(async buffer => {
-      const promises: Promise<BreakpointOutputInfo>[] = [];
+      const promises: Promise<SizeOutputInfo>[] = [];
       const image = sharp(buffer);
       const imageMeta = await image.metadata();
 
@@ -149,7 +156,7 @@ class DiskStorage implements StorageEngine {
       this.setOutputFormat(imageMeta);
       this.generateImageId();
 
-      this.breakpoints.forEach(breakpoint => promises.push(this.convertImage(image, breakpoint)));
+      this.sizes.forEach(breakpoint => promises.push(this.convertImage(image, breakpoint)));
 
       Promise.all(promises)
         .then(res => {
@@ -163,10 +170,10 @@ class DiskStorage implements StorageEngine {
             id: this.imageId,
             mimeType: `image/${this.outputFormat}`,
             originalName: file.originalname,
-            breakpoints: breakpoints as ConvertOutputInfo['breakpoints']
+            sizes: breakpoints as ConvertOutputInfo['sizes']
           };
 
-          console.log(convertOutputInfo);
+          cb(null, { convertOutputInfo } as any);
         })
         .catch(err => {
           cb(err);
@@ -174,22 +181,26 @@ class DiskStorage implements StorageEngine {
     });
 
     file.stream.pipe(write);
-
-    // const writeStream = fs.createWriteStream(finalPath);
-    // file.stream.pipe(writeStream);
-    // writeStream.on('error', cb);
-    // writeStream.on('finish', () => {
-    //   cb(null, {
-    //     destination: this.destination,
-    //     filename: filename,
-    //     path: finalPath,
-    //     size: writeStream.bytesWritten
-    //   });
-    // });
   };
 
-  public _removeFile: StorageEngine['_removeFile'] = (req, file, callback) => {
-    console.log('_removeFile');
+  /**
+   * Method required and called by Multer package
+   */
+  public _removeFile: StorageEngine['_removeFile'] = (req, file) => {
+    delete file.destination;
+    delete file.filename;
+    delete file.path;
+
+    if (!this.imageId) return;
+
+    SIZES.forEach(size => {
+      const code = size.code;
+      const imageDiskPath = this.getImageDiskPath(code);
+
+      if (fs.existsSync(imageDiskPath)) {
+        fs.unlinkSync(imageDiskPath);
+      }
+    });
   };
 }
 

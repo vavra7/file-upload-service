@@ -1,4 +1,4 @@
-export enum Buckets {
+export enum Bucket {
   Temporary = 'tmp',
   Image = 'image',
   File = 'file'

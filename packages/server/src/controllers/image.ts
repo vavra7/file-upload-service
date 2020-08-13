@@ -1,20 +1,20 @@
 import { Controller } from '.';
-
-import sharp, { Metadata } from 'sharp';
-import ApiError, { ErrorCode } from '../utils/errors';
+import ImageConvertor from '../utils/imageConvertor';
 
 export const processImage: Controller = async (req, res, next) => {
-  const image = sharp(req.file.buffer);
-  let imageMeta: Metadata;
+  const imageConvertor = new ImageConvertor(req.file.buffer, req.file.originalname);
 
   try {
-    imageMeta = await image.metadata();
-  } catch {
-    next(new ApiError(ErrorCode.IncorrectImageFormat, 'Incorrect or unknown image format'));
+    await imageConvertor.examine();
+  } catch (err) {
+    next(err);
 
     return;
   }
 
-  console.log(imageMeta);
+  const convertOutputInfo = await imageConvertor.convert();
+
+  console.log(convertOutputInfo);
+
   res.send('done');
 };

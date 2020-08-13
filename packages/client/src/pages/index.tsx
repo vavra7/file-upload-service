@@ -41,7 +41,7 @@ const index: NextPage = () => {
         <h1>File Upload</h1>
 
         <label htmlFor="file">File: </label>
-        <input id="file" type="file" onChange={onFileSelect} accept="image/*" />
+        <input id="file" type="file" onChange={onFileSelect} /* accept="image/*"  */ />
 
         <button type="submit">Submit</button>
       </form>

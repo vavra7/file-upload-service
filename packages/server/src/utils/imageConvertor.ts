@@ -1,10 +1,10 @@
-import sharp, { Metadata, Sharp } from 'sharp';
-import ApiError, { ErrorCode } from './errors';
 import fs from 'fs';
-import { Bucket, URL } from '../config';
 import mkdirp from 'mkdirp';
-import { v4 } from 'uuid';
 import path from 'path';
+import sharp, { Metadata, Sharp } from 'sharp';
+import { v4 } from 'uuid';
+import { Bucket, URL } from '../config';
+import ApiError, { ErrorCode } from './errors';
 
 enum SizeCode {
   Xs = 'xs',

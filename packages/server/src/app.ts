@@ -1,8 +1,9 @@
-import express, { Application } from 'express';
-import routes from './routes';
 import cors from 'cors';
+import express, { Application } from 'express';
 import { PORT } from './config';
 import handleErrors from './middlewares/handleErrors';
+import routes from './routes';
+import { removeTmpFiles } from './utils/scheduledJobs';
 
 class App {
   public app: Application;
@@ -12,6 +13,7 @@ class App {
 
     this.connectDatabase();
     this.initApp();
+    this.startScheduledJobs();
   }
 
   public listen(): void {
@@ -27,6 +29,10 @@ class App {
     this.app.use(express.static('public'));
     this.app.use('/', routes);
     this.app.use(handleErrors);
+  }
+
+  private startScheduledJobs(): void {
+    removeTmpFiles.start();
   }
 }
 

@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import { PORT } from './config';
 import handleErrors from './middlewares/handleErrors';
 import routes from './routes';
+import dbRedis from './utils/dbRedis';
 import { removeTmpFiles } from './utils/scheduledJobs';
 
 class App {
@@ -11,7 +12,7 @@ class App {
   constructor() {
     this.app = express();
 
-    this.connectDatabase();
+    this.connectDatabases();
     this.initApp();
     this.startScheduledJobs();
   }
@@ -20,8 +21,8 @@ class App {
     this.app.listen(PORT, () => console.log('ready - started server on http://localhost:%s', PORT));
   }
 
-  private connectDatabase(): void {
-    console.log('TODO database connection');
+  private connectDatabases(): void {
+    dbRedis.createConnection();
   }
 
   private initApp(): void {

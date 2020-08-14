@@ -2,7 +2,7 @@ import { CronJob } from 'cron';
 import fs from 'fs';
 import moment from 'moment';
 import path from 'path';
-import { Bucket } from '../config';
+import { Bucket, EMPTY_TMP_AGE } from '../config';
 
 const TIMEZONE = 'Europe/Prague';
 
@@ -10,7 +10,6 @@ export const removeTmpFiles = new CronJob(
   '*/2 * * * *',
   () => {
     const destination = `public/${Bucket.Temporary}`;
-    const hoursRemove = 0;
 
     if (!fs.existsSync(destination)) return;
 
@@ -18,9 +17,9 @@ export const removeTmpFiles = new CronJob(
       const filePath = path.join(destination, fileName);
 
       fs.stat(filePath, (err, stats) => {
-        const hoursAge = moment().diff(moment(stats.birthtime), 'hours');
+        const age = moment().diff(moment(stats.birthtime), 'seconds');
 
-        if (hoursAge >= hoursRemove) {
+        if (age >= EMPTY_TMP_AGE) {
           fs.unlink(filePath, err => err && console.error(err));
         }
       });

@@ -1,4 +1,6 @@
 import { Controller } from '.';
+import { EMPTY_TMP_AGE } from '../config';
+import dbRedis, { RedisPrefix } from '../utils/dbRedis';
 import ImageConvertor from '../utils/imageConvertor';
 
 export const processImage: Controller = async (req, res, next) => {
@@ -14,7 +16,12 @@ export const processImage: Controller = async (req, res, next) => {
 
   const convertOutputInfo = await imageConvertor.convert();
 
-  console.log(convertOutputInfo);
+  dbRedis.client.set(
+    RedisPrefix.TmpImage + convertOutputInfo.id,
+    JSON.stringify(convertOutputInfo),
+    'EX',
+    Math.max(60, EMPTY_TMP_AGE - 60 * 60 * 24)
+  );
 
   res.send('done');
 };

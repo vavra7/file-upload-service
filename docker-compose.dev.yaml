@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db-redis:
+    image: redis:6
+    container_name: dev_file-upload-service_db-redis
+    volumes:
+      - type: volume
+        source: db-redis-data
+        target: /var/lib/redis
+    ports:
+      - '6379:6379'
+    
+volumes:
+  db-redis-data:
+    name: dev_file-upload-service_db-redis-data

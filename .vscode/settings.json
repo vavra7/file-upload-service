@@ -8,6 +8,7 @@
     "git github com vavra file upload service",
     "github",
     "index",
+    "middlewares",
     "no",
     "node",
     "notify",

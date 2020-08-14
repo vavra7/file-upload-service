@@ -1,17 +1,10 @@
 import express from 'express';
-import multer from 'multer';
-import { processImage } from '../controllers/image';
+import { processImage, getImage } from '../controllers/image';
+import { imageUpload } from '../middlewares/upload';
 
 const router = express.Router();
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 500000,
-    files: 1
-  }
-});
-
-router.post('/', upload.single('file'), processImage);
+router.post('/', imageUpload, processImage);
+router.get('/:imageName', getImage);
 
 export default router;

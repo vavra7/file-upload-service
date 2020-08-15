@@ -6,6 +6,7 @@ import routes from './routes';
 import dbMongo from './utils/dbMongo';
 import dbRedis from './utils/dbRedis';
 import { removeTmpFiles } from './utils/scheduledJobs';
+import swaggerDocsUi from './utils/swaggerDocsUi';
 
 class App {
   public app: Application;
@@ -16,6 +17,7 @@ class App {
     this.connectDatabases();
     this.initApp();
     this.startScheduledJobs();
+    this.apiDocumentationUi();
   }
 
   public listen(): void {
@@ -36,6 +38,10 @@ class App {
 
   private startScheduledJobs(): void {
     removeTmpFiles.start();
+  }
+
+  private apiDocumentationUi(): void {
+    this.app.use('/api-docs', ...swaggerDocsUi);
   }
 }
 

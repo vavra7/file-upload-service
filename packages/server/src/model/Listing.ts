@@ -11,18 +11,21 @@ export interface IListingInput {
   description: IListing['description'];
 }
 
-const listingSchema = new Schema({
-  title: {
-    type: String,
-    required: true
+const listingSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
   },
-  description: {
-    type: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  { collection: 'listing' }
+);
 
 export default model<IListing>('Listing', listingSchema);

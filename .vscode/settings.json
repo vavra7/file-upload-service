@@ -1,6 +1,7 @@
 {
   "cSpell.ignoreWords": [
     "com",
+    "database",
     "dev",
     "esnext",
     "file",
@@ -8,7 +9,10 @@
     "git github com vavra file upload service",
     "github",
     "index",
+    "initdb",
     "middlewares",
+    "mongo",
+    "mongo initdb database",
     "no",
     "node",
     "notify",

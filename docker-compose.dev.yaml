@@ -10,7 +10,19 @@ services:
         target: /var/lib/redis
     ports:
       - '6379:6379'
+
+  db-mongo:
+    image: mongo:4
+    container_name: dev_file-upload-service_db-mongo
+    volumes:
+      - type: volume
+        source: db-mongo-data
+        target: /data/db
+    ports: 
+      - '27017:27017'
     
 volumes:
   db-redis-data:
     name: dev_file-upload-service_db-redis-data
+  db-mongo-data:
+    name: dev_file-upload-service_db-mongo-data

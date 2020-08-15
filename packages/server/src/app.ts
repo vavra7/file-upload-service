@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import { PORT } from './config';
 import handleErrors from './middlewares/handleErrors';
 import routes from './routes';
+import dbMongo from './utils/dbMongo';
 import dbRedis from './utils/dbRedis';
 import { removeTmpFiles } from './utils/scheduledJobs';
 
@@ -23,6 +24,7 @@ class App {
 
   private connectDatabases(): void {
     dbRedis.createConnection();
+    dbMongo.createConnection();
   }
 
   private initApp(): void {

@@ -1,6 +1,7 @@
 import express from 'express';
 import { createListing, getListing } from '../controllers/listing';
 import { bodyJson } from '../middlewares/bodyParser';
+import { listingInputSchema } from '../model/Listing';
 
 const router = express.Router();
 
@@ -44,8 +45,9 @@ router.get('/:id', async (req, res, next) => {
  */
 router.post('/', bodyJson, async (req, res, next) => {
   try {
-    // TODO: validate input
     const listingInput = req.body;
+
+    listingInputSchema.validateSync(listingInput, { abortEarly: false });
 
     const listing = await createListing(listingInput);
 

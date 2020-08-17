@@ -1,6 +1,7 @@
 export enum ErrorCode {
   InternalServerError = 'INTERNAL_SERVER_ERROR',
-  IncorrectImageFormat = 'INCORRECT_IMAGE_FORMAT'
+  IncorrectImageFormat = 'INCORRECT_IMAGE_FORMAT',
+  ImageNotFound = 'IMAGE_NOT_FOUND'
 }
 
 class ApiError extends Error {
@@ -16,6 +17,8 @@ class ApiError extends Error {
 
   public getStatusCode(): number {
     switch (this.errorCode) {
+      case ErrorCode.ImageNotFound:
+        return 404;
       case ErrorCode.IncorrectImageFormat:
         return 415;
       default:

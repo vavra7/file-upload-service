@@ -4,16 +4,8 @@ import path from 'path';
 import sharp, { Metadata, Sharp } from 'sharp';
 import { v4 } from 'uuid';
 import { Bucket, URL } from '../config';
+import { IImageInput, SizeCode, SizeInfo } from '../model/Image';
 import ApiError, { ErrorCode } from './errors';
-
-enum SizeCode {
-  Xs = 'xs',
-  Sm = 'sm',
-  Md = 'md',
-  Lg = 'lg',
-  Xl = 'xl',
-  Full = 'full'
-}
 
 enum OutputFormat {
   Jpeg = 'jpeg',
@@ -52,24 +44,6 @@ const DEFAULT_SIZES: SizeObject[] = [
   }
 ];
 
-interface SizeOutputInfo {
-  code: SizeCode;
-  name: string;
-  width: number;
-  height: number;
-  size: number;
-  url: string;
-}
-
-interface ConvertOutputInfo {
-  id: string;
-  originalName: string;
-  mimeType: string;
-  sizes: {
-    [index in SizeCode]: SizeOutputInfo | undefined;
-  };
-}
-
 class ImageConvertor {
   private imageId: string;
   private destination = `public/${Bucket.Temporary}`;
@@ -79,7 +53,7 @@ class ImageConvertor {
   public sizes: SizeObject[] | undefined;
   public outputFormat: OutputFormat | undefined;
   public convertToPng = false;
-  public convertOutputInfo: ConvertOutputInfo | undefined;
+  public convertOutputInfo: IImageInput | undefined;
 
   constructor(buffer: Buffer, originalName?: string) {
     if (!fs.existsSync(this.destination)) {
@@ -106,10 +80,10 @@ class ImageConvertor {
     return this;
   }
 
-  public convert(): Promise<ConvertOutputInfo> {
+  public convert(): Promise<IImageInput> {
     if (!this.metadata || !this.sizes || !this.outputFormat) this.examine();
 
-    const promises: Promise<SizeOutputInfo>[] = [];
+    const promises: Promise<SizeInfo>[] = [];
 
     this.sizes!.forEach(sizeObject => promises.push(this.convertToSize(this.image, sizeObject)));
 
@@ -119,10 +93,10 @@ class ImageConvertor {
       result.forEach(sizeOutputInfo => (sizes[sizeOutputInfo.code] = sizeOutputInfo));
 
       const convertOutputInfo = {
-        id: this.imageId,
+        _id: this.imageId,
         mimeType: `image/${this.outputFormat}`,
         originalName: this.originalName,
-        sizes: sizes as ConvertOutputInfo['sizes']
+        sizes: sizes as IImageInput['sizes']
       };
 
       this.convertOutputInfo = convertOutputInfo;
@@ -136,7 +110,7 @@ class ImageConvertor {
    * @param image
    * @param sizeObject
    */
-  private convertToSize(image: Sharp, { resizeArgs, code }: SizeObject): Promise<SizeOutputInfo> {
+  private convertToSize(image: Sharp, { resizeArgs, code }: SizeObject): Promise<SizeInfo> {
     const name = `${this.imageId}-${code}.${this.outputFormat}`;
     let converted = image.resize(...resizeArgs);
 
@@ -147,8 +121,8 @@ class ImageConvertor {
     return converted
       .toFile(`${path.join(this.destination, this.imageId)}-${code}.${this.outputFormat}`)
       .then(outputInfo => ({
-        name,
         code,
+        name,
         width: outputInfo.width,
         height: outputInfo.height,
         size: outputInfo.size,

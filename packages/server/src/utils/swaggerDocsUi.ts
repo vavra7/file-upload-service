@@ -6,7 +6,7 @@ const swaggerDocs = swaggerJSDoc({
     info: {
       title: 'File Upload Service',
       version: '1.0.0',
-      description: 'Disk storage upload following the model of S3'
+      description: 'Disk storage upload following the model of S3.'
     }
   },
   apis: ['./src/routes/**/*.ts']

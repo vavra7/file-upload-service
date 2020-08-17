@@ -9,13 +9,15 @@ const router = express.Router();
  *
  * /listing/{id}:
  *   get:
- *     description: Returns listing
+ *     summary: Returns listing
  *     parameters:
  *       - in: path
  *         name: id
  *     responses:
  *       200:
  *         description: Listing data
+ *     tags:
+ *       - Listing
  */
 router.get('/:id', getListing);
 
@@ -24,7 +26,12 @@ router.get('/:id', getListing);
  *
  * /listing:
  *   post:
- *    description: Creates new listing
+ *     summary: Creates a new listing
+ *     responses:
+ *       200:
+ *         description: Listing data
+ *     tags:
+ *       - Listing
  */
 router.post('/', bodyJson, createListing);
 

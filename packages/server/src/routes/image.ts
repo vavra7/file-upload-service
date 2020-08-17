@@ -1,5 +1,5 @@
 import express from 'express';
-import { getImage, processImage, saveImages } from '../controllers/image';
+import imageController from '../controllers/image';
 import { bodyJson } from '../middlewares/bodyParser';
 import { imageUpload } from '../middlewares/uploads';
 import ApiError, { ErrorCode } from '../utils/errors';
@@ -27,7 +27,7 @@ const router = express.Router();
 router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    const image = await getImage(id);
+    const image = await imageController.getImage(id);
 
     if (!image) throw new ApiError(ErrorCode.ImageNotFound, `Image ${id} not found.`);
 
@@ -63,7 +63,7 @@ router.put('/', bodyJson, async (req, res, next) => {
 
     if (!ids?.length) throw new ApiError(ErrorCode.InvalidInput, 'Missing image ids');
 
-    const images = await saveImages(ids);
+    const images = await imageController.saveImages(ids);
 
     res.json(images);
   } catch (err) {
@@ -100,7 +100,7 @@ router.post('/', imageUpload, async (req, res, next) => {
 
     const originalName = req.file.originalname;
 
-    const image = await processImage(buffer, originalName);
+    const image = await imageController.processImage(buffer, originalName);
 
     res.json(image);
   } catch (err) {

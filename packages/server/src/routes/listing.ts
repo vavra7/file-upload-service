@@ -1,5 +1,5 @@
 import express from 'express';
-import { createListing, getListing } from '../controllers/listing';
+import listingController from '../controllers/listing';
 import { bodyJson } from '../middlewares/bodyParser';
 import { listingInputSchema } from '../model/Listing';
 
@@ -23,7 +23,7 @@ const router = express.Router();
 router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    const listing = await getListing(id);
+    const listing = await listingController.getListing(id);
 
     res.json(listing);
   } catch (err) {
@@ -49,7 +49,7 @@ router.post('/', bodyJson, async (req, res, next) => {
 
     listingInputSchema.validateSync(listingInput, { abortEarly: false });
 
-    const listing = await createListing(listingInput);
+    const listing = await listingController.createListing(listingInput);
 
     res.json(listing);
   } catch (err) {

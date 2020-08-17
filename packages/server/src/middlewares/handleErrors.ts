@@ -10,7 +10,8 @@ const handleErrors = (err: Error, req: Request, res: Response, next: NextFunctio
           code: err.errorCode,
           message: err.message,
           extensions: {
-            stacktrace: err.stack
+            ...err.extensions,
+            stacktrace: err.stack?.split('\n')
           }
         }
       ]
@@ -24,7 +25,7 @@ const handleErrors = (err: Error, req: Request, res: Response, next: NextFunctio
           code: ErrorCode.InternalServerError,
           message: err.message || 'Internal server error',
           extensions: {
-            stacktrace: err.stack || null
+            stacktrace: err.stack?.split('\n') || null
           }
         }
       ]

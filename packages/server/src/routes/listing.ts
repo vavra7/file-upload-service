@@ -19,7 +19,16 @@ const router = express.Router();
  *     tags:
  *       - Listing
  */
-router.get('/:id', getListing);
+router.get('/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const listing = await getListing(id);
+
+    res.json(listing);
+  } catch (err) {
+    next(err);
+  }
+});
 
 /**
  * @swagger
@@ -33,6 +42,17 @@ router.get('/:id', getListing);
  *     tags:
  *       - Listing
  */
-router.post('/', bodyJson, createListing);
+router.post('/', bodyJson, async (req, res, next) => {
+  try {
+    // TODO: validate input
+    const listingInput = req.body;
+
+    const listing = await createListing(listingInput);
+
+    res.json(listing);
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;

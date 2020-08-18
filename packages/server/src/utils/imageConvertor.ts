@@ -126,6 +126,7 @@ class ImageConvertor {
         width: outputInfo.width,
         height: outputInfo.height,
         size: outputInfo.size,
+        path: `${this.destination}/${name}`,
         url: `${URL}/${Bucket.Temporary}/${name}`
       }));
   }

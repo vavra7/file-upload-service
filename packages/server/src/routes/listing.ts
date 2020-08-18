@@ -2,6 +2,7 @@ import express from 'express';
 import listingController from '../controllers/listing';
 import { bodyJson } from '../middlewares/bodyParser';
 import { listingInputSchema } from '../model/Listing';
+import ApiError, { ErrorCode } from '../utils/errors';
 
 const router = express.Router();
 
@@ -17,6 +18,8 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: Listing data
+ *       404:
+ *         description: Listing not found
  *     tags:
  *       - Listing
  */
@@ -24,6 +27,8 @@ router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const listing = await listingController.getListing(id);
+
+    if (!listing) throw new ApiError(ErrorCode.ListingNotFound, `Listing '${id}' was not found`);
 
     res.json(listing);
   } catch (err) {

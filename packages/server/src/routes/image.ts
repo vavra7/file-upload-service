@@ -29,7 +29,7 @@ router.get('/:id', async (req, res, next) => {
     const id = req.params.id;
     const image = await imageController.getImage(id);
 
-    if (!image) throw new ApiError(ErrorCode.ImageNotFound, `Image ${id} not found.`);
+    if (!image) throw new ApiError(ErrorCode.ImageNotFound, `Image '${id}' was not found`);
 
     res.json(image);
   } catch (err) {
@@ -76,7 +76,7 @@ router.put('/', bodyJson, async (req, res, next) => {
  *
  * /image:
  *   post:
- *     summary: Image upload and storing in temporary file
+ *     summary: Image upload and storing in temporary folder
  *     consumes:
  *      - multipart/form-data
  *     produces:

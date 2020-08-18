@@ -15,6 +15,7 @@ export interface SizeInfo {
   width: number;
   height: number;
   size: number;
+  path: string;
   url: string;
 }
 
@@ -58,6 +59,7 @@ const imageSchema = new Schema(
         width: { type: Number },
         height: { type: Number },
         size: { type: Number },
+        path: { type: String },
         url: { type: String }
       },
       sm: {
@@ -66,6 +68,7 @@ const imageSchema = new Schema(
         width: { type: Number },
         height: { type: Number },
         size: { type: Number },
+        path: { type: String },
         url: { type: String }
       },
       md: {
@@ -74,6 +77,7 @@ const imageSchema = new Schema(
         width: { type: Number },
         height: { type: Number },
         size: { type: Number },
+        path: { type: String },
         url: { type: String }
       },
       lg: {
@@ -82,6 +86,7 @@ const imageSchema = new Schema(
         width: { type: Number },
         height: { type: Number },
         size: { type: Number },
+        path: { type: String },
         url: { type: String }
       },
       xl: {
@@ -90,6 +95,7 @@ const imageSchema = new Schema(
         width: { type: Number },
         height: { type: Number },
         size: { type: Number },
+        path: { type: String },
         url: { type: String }
       },
       full: {
@@ -98,6 +104,7 @@ const imageSchema = new Schema(
         width: { type: Number, required: true },
         height: { type: Number, required: true },
         size: { type: Number, required: true },
+        path: { type: String, required: true },
         url: { type: String, required: true }
       }
     }

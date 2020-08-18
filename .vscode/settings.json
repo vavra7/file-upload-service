@@ -11,6 +11,7 @@
     "index",
     "initdb",
     "middlewares",
+    "mimetype",
     "mongo",
     "mongo initdb database",
     "no",

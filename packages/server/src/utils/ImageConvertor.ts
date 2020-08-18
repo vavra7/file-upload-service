@@ -5,7 +5,7 @@ import sharp, { Metadata, Sharp } from 'sharp';
 import { v4 } from 'uuid';
 import { Bucket, URL } from '../config';
 import { IImageInput, SizeCode, SizeInfo } from '../model/Image';
-import ApiError, { ErrorCode } from './errors';
+import ApiError, { ErrorCode } from './ApiError';
 
 enum OutputFormat {
   Jpeg = 'jpeg',

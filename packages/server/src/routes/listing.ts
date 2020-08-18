@@ -2,7 +2,7 @@ import express from 'express';
 import listingController from '../controllers/listing';
 import { bodyJson } from '../middlewares/bodyParser';
 import { listingInputSchema } from '../model/Listing';
-import ApiError, { ErrorCode } from '../utils/errors';
+import ApiError, { ErrorCode } from '../utils/ApiError';
 
 const router = express.Router();
 

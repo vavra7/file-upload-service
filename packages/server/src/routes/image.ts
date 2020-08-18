@@ -2,7 +2,7 @@ import express from 'express';
 import imageController from '../controllers/image';
 import { bodyJson } from '../middlewares/bodyParser';
 import { imageUpload } from '../middlewares/uploads';
-import ApiError, { ErrorCode } from '../utils/errors';
+import ApiError, { ErrorCode } from '../utils/ApiError';
 
 const router = express.Router();
 
@@ -82,7 +82,7 @@ router.put('/', bodyJson, async (req, res, next) => {
  *     produces:
  *      - application/json
  *     parameters:
- *       - name: file
+ *       - name: image
  *         in: formData
  *         required: true
  *         type: file

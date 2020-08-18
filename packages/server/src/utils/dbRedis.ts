@@ -1,7 +1,8 @@
 import Redis from 'ioredis';
 
 export enum RedisPrefix {
-  TmpImage = 'tmpImg:'
+  TmpImage = 'tmpImg:',
+  TmpFile = 'tmpFile:'
 }
 
 class DbRedis {

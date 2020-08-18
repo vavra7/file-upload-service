@@ -9,6 +9,7 @@ export enum SizeCode {
   Full = 'full'
 }
 
+// TODO: size
 export interface SizeInfo {
   code: SizeCode;
   name: string;

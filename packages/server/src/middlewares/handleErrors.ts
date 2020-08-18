@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ValidationError } from 'yup';
-import ApiError, { ErrorCode } from '../utils/errors';
+import ApiError, { ErrorCode } from '../utils/ApiError';
 
 interface IError {
   code: ErrorCode;

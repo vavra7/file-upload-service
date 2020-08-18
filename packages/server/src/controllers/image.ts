@@ -1,11 +1,11 @@
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import moment from 'moment';
-import { Bucket, EMPTY_TMP_AGE, URL } from '../config';
+import { Bucket, EXPIRE_REDIS_TMP, URL } from '../config';
 import Image, { IImage, IImageInput, SizeInfo } from '../model/Image';
+import ApiError, { ErrorCode } from '../utils/ApiError';
 import dbRedis, { RedisPrefix } from '../utils/dbRedis';
-import ApiError, { ErrorCode } from '../utils/errors';
-import ImageConvertor from '../utils/imageConvertor';
+import ImageConvertor from '../utils/ImageConvertor';
 
 export default {
   getImage: async function (id: IImage['_id']): Promise<IImage | null> {
@@ -47,6 +47,7 @@ export default {
       mkdirp.sync(`public/${bucket}/${dateFolder}`);
     }
 
+    // TODO: encapsulate functionality
     imagesData.forEach(imageInput => {
       for (const sizeCode in imageInput.sizes) {
         const sizeInfo: SizeInfo = imageInput.sizes[sizeCode];
@@ -91,7 +92,7 @@ export default {
       RedisPrefix.TmpImage + imageData._id,
       JSON.stringify(imageData),
       'EX',
-      Math.max(60 * 60, EMPTY_TMP_AGE - 60 * 60 * 24)
+      EXPIRE_REDIS_TMP
     );
 
     return imageData;

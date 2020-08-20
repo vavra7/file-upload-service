@@ -31,6 +31,8 @@ export interface IImage extends Document {
     [SizeCode.Xl]?: SizeInfo;
     [SizeCode.Full]: SizeInfo;
   };
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IImageInput {
@@ -47,7 +49,6 @@ export interface IImageInput {
   };
 }
 
-// TODO: Created
 const imageSchema = new Schema(
   {
     _id: { type: String, required: true },
@@ -110,7 +111,13 @@ const imageSchema = new Schema(
       }
     }
   },
-  { collection: 'image' }
+  {
+    collection: 'image',
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
+    }
+  }
 );
 
 export default model<IImage>('Image', imageSchema);

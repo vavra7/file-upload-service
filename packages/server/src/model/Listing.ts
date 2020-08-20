@@ -5,6 +5,7 @@ export interface IListing extends Document {
   title: string;
   description?: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IListingInput {
@@ -27,7 +28,13 @@ const listingSchema = new Schema(
       type: String
     }
   },
-  { collection: 'listing' }
+  {
+    collection: 'listing',
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
+    }
+  }
 );
 
 export default model<IListing>('Listing', listingSchema);

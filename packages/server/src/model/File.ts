@@ -8,8 +8,8 @@ export interface IFile extends Document {
   size: number;
   path: string;
   url: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IFileInput {

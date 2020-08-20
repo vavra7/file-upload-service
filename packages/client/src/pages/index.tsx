@@ -1,7 +1,7 @@
-import { NextPage } from 'next';
 import axios from 'axios';
+import { NextPage } from 'next';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { imageUploadRequest } from '../api';
-import { useState, FormEvent, ChangeEvent } from 'react';
 
 const index: NextPage = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -14,7 +14,6 @@ const index: NextPage = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log('file', file);
 
     const bodyFormData = new FormData();
 

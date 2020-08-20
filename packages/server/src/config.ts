@@ -4,6 +4,7 @@ export enum Bucket {
   File = 'file'
 }
 
+// TODO: constants should be constants
 export const PORT = 4000;
 export const URL = `http://localhost:${PORT}`;
 export const EMPTY_TMP_AGE = 60 * 60 * 24 * 3;

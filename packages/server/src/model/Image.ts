@@ -9,7 +9,6 @@ export enum SizeCode {
   Full = 'full'
 }
 
-// TODO: size
 export interface SizeInfo {
   code: SizeCode;
   name: string;
@@ -48,11 +47,12 @@ export interface IImageInput {
   };
 }
 
+// TODO: Created
 const imageSchema = new Schema(
   {
-    _id: { type: String },
-    mimeType: { type: String },
-    originalName: { type: String },
+    _id: { type: String, required: true },
+    mimeType: { type: String, required: true },
+    originalName: { type: String, required: true },
     sizes: {
       xs: {
         name: { type: String },

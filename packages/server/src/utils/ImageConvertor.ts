@@ -7,6 +7,9 @@ import { Bucket, URL } from '../config';
 import { IImageInput, SizeCode, SizeInfo } from '../model/Image';
 import ApiError, { ErrorCode } from './ApiError';
 
+// TODO: SVG to Png, others to jpeg, gif??
+// https://www.foregroundweb.com/image-size/
+
 enum OutputFormat {
   Jpeg = 'jpeg',
   Png = 'png'

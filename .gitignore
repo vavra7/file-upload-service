@@ -3,3 +3,4 @@ dist
 
 /packages/server/public/tmp
 /packages/server/public/image
+/packages/server/public/file

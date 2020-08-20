@@ -1,6 +1,7 @@
 export enum ErrorCode {
   InternalServerError = 'INTERNAL_SERVER_ERROR',
   IncorrectImageFormat = 'INCORRECT_IMAGE_FORMAT',
+  FileNotFound = 'FILE_NOT_FOUND',
   ImageNotFound = 'IMAGE_NOT_FOUND',
   ListingNotFound = 'LISTING_NOT_FOUND',
   InvalidInput = 'INVALID_INPUT'
@@ -23,6 +24,7 @@ class ApiError extends Error {
     switch (this.errorCode) {
       case ErrorCode.InvalidInput:
         return 400;
+      case ErrorCode.FileNotFound:
       case ErrorCode.ImageNotFound:
       case ErrorCode.ListingNotFound:
         return 404;

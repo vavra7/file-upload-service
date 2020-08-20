@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 
 export interface IFile extends Document {
   _id: string;
@@ -8,6 +8,8 @@ export interface IFile extends Document {
   size: number;
   path: string;
   url: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IFileInput {
@@ -20,4 +22,23 @@ export interface IFileInput {
   url: IFile['url'];
 }
 
-// TODO: save
+const fileSchema = new Schema(
+  {
+    _id: { type: String, required: true },
+    name: { type: String, required: true },
+    mimeType: { type: String, required: true },
+    originalName: { type: String, required: true },
+    size: { type: Number, required: true },
+    path: { type: String, required: true },
+    url: { type: String, required: true }
+  },
+  {
+    collection: 'file',
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
+    }
+  }
+);
+
+export default model<IFile>('File', fileSchema);

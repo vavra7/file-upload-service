@@ -11,7 +11,7 @@ const router = express.Router();
  *
  * /image/{id}:
  *   get:
- *     summary: Returns image data if image is saved
+ *     summary: Returns image data
  *     parameters:
  *       - in: path
  *         name: id
@@ -40,9 +40,43 @@ router.get('/:id', async (req, res, next) => {
 /**
  * @swagger
  *
+ * /image/download/{id}:
+ *   get:
+ *     summary: Downloads image
+ *     produces:
+ *      - application/octet-stream
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Downloads image
+ *       404:
+ *         description: Image not found
+ *     tags:
+ *       - Image
+ */
+router.get('/download/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const image = await imageController.getImage(id);
+
+    if (!image) throw new ApiError(ErrorCode.ImageNotFound, `Image '${id}' was not found`);
+
+    res.setHeader('Content-Type', image.mimeType);
+    res.download(image.sizes.full.path, image.originalName);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * @swagger
+ *
  * /image:
  *   put:
- *     summary: Saves image from temporary bucket into regular one
+ *     summary: Saves images from temporary bucket into regular one
  *     parameters:
  *       - in: body
  *         required: true
@@ -76,7 +110,7 @@ router.put('/', bodyJson, async (req, res, next) => {
  *
  * /image:
  *   post:
- *     summary: Image upload and storing in temporary folder
+ *     summary: Image upload, convert to sizes and storing in temporary folder
  *     consumes:
  *      - multipart/form-data
  *     produces:

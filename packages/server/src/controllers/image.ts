@@ -79,7 +79,7 @@ export default {
       throw moveErrors[0];
     }
 
-    return await Image.insertMany([...imagesData] as IImageInput[]);
+    return await Image.insertMany(imagesData);
   },
   processImage: async function (buffer: Buffer, originalName?): Promise<IImageInput> {
     const imageConvertor = new ImageConvertor(buffer, originalName);

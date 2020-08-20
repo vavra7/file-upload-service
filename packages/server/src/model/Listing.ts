@@ -25,10 +25,6 @@ const listingSchema = new Schema(
     },
     description: {
       type: String
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now
     }
   },
   { collection: 'listing' }

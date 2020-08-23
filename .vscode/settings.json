@@ -2,9 +2,12 @@
   "cSpell.ignoreWords": [
     "com",
     "database",
+    "date",
     "dev",
     "esnext",
     "file",
+    "get",
+    "get date subfolder",
     "git",
     "git github com vavra file upload service",
     "github",
@@ -18,12 +21,15 @@
     "node",
     "notify",
     "originalname",
+    "potrace",
     "respawn",
     "service",
     "src",
+    "subfolder",
     "ts",
     "ts node dev no notify respawn src index",
     "upload",
-    "vavra"
+    "vavra",
+    "webp"
   ]
 }

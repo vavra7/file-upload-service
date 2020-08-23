@@ -1,7 +1,7 @@
 import multer, { diskStorage, memoryStorage } from 'multer';
 import path from 'path';
-import { v4 } from 'uuid';
-import { Bucket } from '../config';
+import FileManager from '../model/FileManager';
+import FileService from '../utils/FileService';
 
 export const imageUpload = multer({
   storage: memoryStorage(),
@@ -14,10 +14,10 @@ export const imageUpload = multer({
 export const fileUpload = multer({
   storage: diskStorage({
     destination: (req, file, cb) => {
-      cb(null, `public/${Bucket.Temporary}`);
+      cb(null, FileService.tmpFolderPath);
     },
     filename: (req, file, cb) => {
-      cb(null, v4() + path.extname(file.originalname));
+      cb(null, FileManager.generateId() + path.extname(file.originalname));
     }
   }),
   limits: {

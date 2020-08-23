@@ -1,7 +1,7 @@
 import express from 'express';
-import listingController from '../controllers/listing';
+import { listingInputSchema } from '../entities/Listing';
+import ListingHandler from '../handlers/ListingHandler';
 import { bodyJson } from '../middlewares/bodyParser';
-import { listingInputSchema } from '../model/Listing';
 import ApiError, { ErrorCode } from '../utils/ApiError';
 
 const router = express.Router();
@@ -26,7 +26,7 @@ const router = express.Router();
 router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    const listing = await listingController.getListing(id);
+    const listing = await ListingHandler.get(id);
 
     if (!listing) throw new ApiError(ErrorCode.ListingNotFound, `Listing '${id}' was not found`);
 
@@ -54,7 +54,7 @@ router.post('/', bodyJson, async (req, res, next) => {
 
     listingInputSchema.validateSync(listingInput, { abortEarly: false });
 
-    const listing = await listingController.createListing(listingInput);
+    const listing = await ListingHandler.create(listingInput);
 
     res.json(listing);
   } catch (err) {

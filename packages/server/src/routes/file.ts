@@ -1,5 +1,5 @@
 import express from 'express';
-import fileController from '../controllers/file';
+import FileHandler from '../handlers/FileHandler';
 import { bodyJson } from '../middlewares/bodyParser';
 import { fileUpload } from '../middlewares/uploads';
 import ApiError, { ErrorCode } from '../utils/ApiError';
@@ -32,7 +32,7 @@ const router = express.Router();
 router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    const file = await fileController.getFile(id);
+    const file = await FileHandler.get(id);
 
     if (!file) throw new ApiError(ErrorCode.FileNotFound, `File '${id}' was not found`);
 
@@ -65,12 +65,12 @@ router.get('/:id', async (req, res, next) => {
 router.get('/download/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    const file = await fileController.getFile(id);
+    const file = await FileHandler.get(id);
 
     if (!file) throw new ApiError(ErrorCode.FileNotFound, `File '${id}' was not found`);
 
     res.setHeader('Content-Type', file.mimeType);
-    res.download(file.path, file.originalName);
+    res.download(file.path, file.originalFullName);
   } catch (err) {
     next(err);
   }
@@ -102,7 +102,7 @@ router.put('/', bodyJson, async (req, res, next) => {
 
     if (!ids?.length) throw new ApiError(ErrorCode.InvalidInput, 'Missing file ids');
 
-    const files = await fileController.saveFiles(ids);
+    const files = await FileHandler.saveFiles(ids);
 
     res.json(files);
   } catch (err) {
@@ -137,7 +137,7 @@ router.post('/', fileUpload, async (req, res, next) => {
 
     if (!file) throw new ApiError(ErrorCode.InvalidInput, 'No file was received');
 
-    const fileData = await fileController.processFile(file);
+    const fileData = FileHandler.process(file);
 
     res.json(fileData);
   } catch (err) {

@@ -8,10 +8,7 @@ export interface IListing extends Document {
   updatedAt: Date;
 }
 
-export interface IListingInput {
-  title: IListing['title'];
-  description: IListing['description'];
-}
+export type ListingInput = Pick<IListing, 'title' | 'description'>;
 
 export const listingInputSchema = yup.object().shape({
   title: yup.string().required().max(50),

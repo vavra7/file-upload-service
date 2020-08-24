@@ -2,7 +2,7 @@ import fs from 'fs';
 import mkdirp from 'mkdirp';
 import moment from 'moment';
 import path from 'path';
-import { URL } from '../config';
+import { BASE_URL } from '../config';
 import { FileInput } from '../entities/File';
 import { ImageInput, SourceInfo } from '../entities/Image';
 
@@ -39,11 +39,11 @@ class FileService {
   }
 
   static getTmpImageUrl(imageFullName: string): string {
-    return path.join(URL, FileService.tmpUrlPath, imageFullName);
+    return new URL(path.join(FileService.tmpUrlPath, imageFullName), BASE_URL).toString();
   }
 
   static getTmpFileUrl(fileFullName: string): string {
-    return path.join(URL, FileService.tmpUrlPath, fileFullName);
+    return new URL(path.join(FileService.tmpUrlPath, fileFullName), BASE_URL).toString();
   }
 
   /**
@@ -65,12 +65,10 @@ class FileService {
       (Object.values(sourcesInfo) as SourceInfo[]).map(sourceInfo => {
         const oldPath = sourceInfo.path;
         const newPath = path.join(destination, sourceInfo.fullName);
-        const newUrl = path.join(
-          URL,
-          FileService.imagesUrlPath,
-          dateSubfolder,
-          sourceInfo.fullName
-        );
+        const newUrl = new URL(
+          path.join(FileService.imagesUrlPath, dateSubfolder, sourceInfo.fullName),
+          BASE_URL
+        ).toString();
 
         updatedSourcesInfo[sourceInfo.srcCode]!.path = newPath;
         updatedSourcesInfo[sourceInfo.srcCode]!.url = newUrl;
@@ -92,7 +90,10 @@ class FileService {
     const destination = path.join(FileService.fileFolderPath, dateSubfolder);
     const oldPath = fileInput.path;
     const newPath = path.join(destination, fileInput.fullName);
-    const newUrl = path.join(URL, FileService.filesUrlPath, dateSubfolder, fileInput.fullName);
+    const newUrl = new URL(
+      path.join(FileService.filesUrlPath, dateSubfolder, fileInput.fullName),
+      BASE_URL
+    ).toString();
 
     FileService.ensureDestination(destination);
 

@@ -63,7 +63,7 @@ const imageSchema = new Schema(
   {
     _id: { type: String, required: true },
     originalName: { type: String, required: true },
-    fullOriginalName: { type: String, required: true },
+    originalFullName: { type: String, required: true },
     width: { type: Number, required: true },
     height: { type: Number, required: true },
     aspectRatio: { type: Number, required: true },

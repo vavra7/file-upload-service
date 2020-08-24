@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { NextPage } from 'next';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { imageUploadRequest } from '../api';
 
 const index: NextPage = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -20,7 +19,7 @@ const index: NextPage = () => {
     bodyFormData.append('file', file as any);
 
     const request = {
-      ...imageUploadRequest,
+      url: 'http://localhost:4000/image',
       onUploadProgress: (progressEvent: any) => console.log(progressEvent.loaded),
       data: bodyFormData
     };

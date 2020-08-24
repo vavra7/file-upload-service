@@ -19,7 +19,7 @@ class ImageTracer {
     buffer = await this.convert(this.buffer);
     svg = await this.trace(buffer);
     svg = await this.optimize(svg);
-    svg = this.encodeSpaces(svg);
+    svg = this.encodeUri(svg);
 
     return svg;
   }
@@ -77,11 +77,11 @@ class ImageTracer {
   }
 
   /**
-   * Encodes spaces in SVG string
+   * Encoding
    * @param str
    */
-  private encodeSpaces(str: string): string {
-    return str.replace(/ /gi, '%20');
+  private encodeUri(str: string): string {
+    return `data:image/svg+xml,${encodeURIComponent(str)}`;
   }
 }
 

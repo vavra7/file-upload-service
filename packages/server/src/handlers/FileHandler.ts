@@ -1,9 +1,8 @@
 import path from 'path';
-import { EXPIRE_REDIS_TMP } from '../config';
 import { FileInput, IFile } from '../entities/File';
 import FileManager, { FileCreate } from '../model/FileManager';
 import ApiError, { ErrorCode } from '../utils/ApiError';
-import dbRedis, { RedisPrefix } from '../utils/dbRedis';
+import dbRedis, { expiryTime, RedisPrefix } from '../utils/dbRedis';
 import FileService from '../utils/FileService';
 
 class FileHandler {
@@ -36,7 +35,7 @@ class FileHandler {
       RedisPrefix.TmpFile + fileData._id,
       JSON.stringify(fileData),
       'EX',
-      EXPIRE_REDIS_TMP
+      expiryTime.tmp
     );
 
     return fileData;

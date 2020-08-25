@@ -2,7 +2,7 @@ import fs from 'fs';
 import mkdirp from 'mkdirp';
 import moment from 'moment';
 import path from 'path';
-import { BASE_URL } from '../config';
+import { baseUrl } from '../config';
 import { FileInput } from '../entities/File';
 import { ImageInput, SourceInfo } from '../entities/Image';
 
@@ -39,11 +39,11 @@ class FileService {
   }
 
   static getTmpImageUrl(imageFullName: string): string {
-    return new URL(path.join(FileService.tmpUrlPath, imageFullName), BASE_URL).toString();
+    return new URL(path.join(FileService.tmpUrlPath, imageFullName), baseUrl).toString();
   }
 
   static getTmpFileUrl(fileFullName: string): string {
-    return new URL(path.join(FileService.tmpUrlPath, fileFullName), BASE_URL).toString();
+    return new URL(path.join(FileService.tmpUrlPath, fileFullName), baseUrl).toString();
   }
 
   /**
@@ -67,7 +67,7 @@ class FileService {
         const newPath = path.join(destination, sourceInfo.fullName);
         const newUrl = new URL(
           path.join(FileService.imagesUrlPath, dateSubfolder, sourceInfo.fullName),
-          BASE_URL
+          baseUrl
         ).toString();
 
         updatedSourcesInfo[sourceInfo.srcCode]!.path = newPath;
@@ -92,7 +92,7 @@ class FileService {
     const newPath = path.join(destination, fileInput.fullName);
     const newUrl = new URL(
       path.join(FileService.filesUrlPath, dateSubfolder, fileInput.fullName),
-      BASE_URL
+      baseUrl
     ).toString();
 
     FileService.ensureDestination(destination);

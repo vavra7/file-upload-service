@@ -28,7 +28,9 @@ router.get('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const image = await ImageHandler.get(id);
+
     if (!image) throw new ApiError(ErrorCode.ImageNotFound, `Image '${id}' was not found`);
+
     res.json(image);
   } catch (err) {
     next(err);
@@ -40,7 +42,7 @@ router.get('/:id', async (req, res, next) => {
  *
  * /image:
  *   put:
- *     summary: Saves images from temporary bucket into regular one
+ *     summary: Saves images from temporary folder into regular one
  *     parameters:
  *       - in: body
  *         required: true
@@ -58,8 +60,11 @@ router.get('/:id', async (req, res, next) => {
 router.put('/', bodyJson, async (req, res, next) => {
   try {
     const ids = req.body;
+
     if (!ids?.length) throw new ApiError(ErrorCode.InvalidInput, 'Missing image ids');
+
     const images = await ImageHandler.saveImages(ids);
+
     res.json(images);
   } catch (err) {
     next(err);

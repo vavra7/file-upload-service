@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express, { Application } from 'express';
-import { PORT } from './config';
+import { baseUrl, port } from './config';
 import handleErrors from './middlewares/handleErrors';
 import routes from './routes';
 import dbMongo from './utils/dbMongo';
@@ -21,7 +21,7 @@ class App {
   }
 
   public listen(): void {
-    this.app.listen(PORT, () => console.log('ready - started server on http://localhost:%s', PORT));
+    this.app.listen(port, () => console.log('ready - started server on %s', baseUrl));
   }
 
   private connectDatabases(): void {

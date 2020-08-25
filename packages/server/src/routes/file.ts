@@ -81,7 +81,7 @@ router.get('/download/:id', async (req, res, next) => {
  *
  * /file:
  *   put:
- *     summary: Saves files from temporary bucket into regular one
+ *     summary: Saves files from temporary folder into regular one
  *     parameters:
  *       - in: body
  *         required: true

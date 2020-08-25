@@ -1,4 +1,4 @@
 # file-upload-service
 
 ## requirements:
-installed: node, npm, yarn
+installed: docker, docker-compose, node, npm, yarn

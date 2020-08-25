@@ -1,10 +1,9 @@
 import mime from 'mime-types';
 import path from 'path';
-import { EXPIRE_REDIS_TMP } from '../config';
 import { IImage, ImageInput, SrcCode } from '../entities/Image';
 import ImageManager, { ImageCreate } from '../model/ImageManager';
 import ApiError, { ErrorCode } from '../utils/ApiError';
-import dbRedis, { RedisPrefix } from '../utils/dbRedis';
+import dbRedis, { expiryTime, RedisPrefix } from '../utils/dbRedis';
 import FileService from '../utils/FileService';
 import ImageConvertor from '../utils/ImageConvertor';
 import ImageTracer from '../utils/ImageTracer';
@@ -65,7 +64,7 @@ class ImageHandler {
       RedisPrefix.TmpImage + imageData._id,
       JSON.stringify(imageData),
       'EX',
-      EXPIRE_REDIS_TMP
+      expiryTime.tmp
     );
 
     return imageData;

@@ -1,3 +1,23 @@
 {
-  "extends": ["../../.eslintrc.json"]
+  "extends": ["../../.eslintrc.json", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react"],
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "react/prop-types": 0,
+    "react/button-has-type": 1,
+    "react/jsx-sort-props": [
+      1,
+      {
+        "noSortAlphabetically": false,
+        "shorthandLast": false,
+        "callbacksLast": false
+      }
+    ],
+    "react/no-deprecated": 1
+  }
 }

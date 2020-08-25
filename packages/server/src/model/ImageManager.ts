@@ -27,6 +27,15 @@ class ImageManager {
       });
     });
   }
+
+  static list(): Promise<IImage[]> {
+    return new Promise<IImage[]>((resolve, rejects) => {
+      Image.find({}, (err, res) => {
+        if (err) rejects(err);
+        else resolve(res);
+      });
+    });
+  }
 }
 
 export default ImageManager;

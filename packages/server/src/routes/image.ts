@@ -41,6 +41,32 @@ router.get('/:id', async (req, res, next) => {
  * @swagger
  *
  * /image:
+ *   get:
+ *     summary: Returns list of image data
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: List of image data
+ *     tags:
+ *       - Image
+ */
+router.get('/', async (req, res, next) => {
+  try {
+    const list = await ImageHandler.list();
+
+    res.json(list);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * @swagger
+ *
+ * /image:
  *   put:
  *     summary: Saves images from temporary folder into regular one
  *     parameters:

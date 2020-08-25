@@ -24,11 +24,14 @@ const Image: NextPage = props => {
           }}
         />
         <picture>
-          <source type={srcsetType} srcSet={srcset} />
+          <source srcSet={srcset} type={srcsetType} />
           <img
-            src={src}
-            loading="lazy"
             alt={originalName}
+            loading="lazy"
+            onLoad={(e: ChangeEvent<HTMLImageElement>): void => {
+              e.target.style.opacity = '1';
+            }}
+            src={src}
             style={{
               position: 'absolute',
               top: '0',
@@ -41,7 +44,6 @@ const Image: NextPage = props => {
               transitionDelay: '500ms',
               transition: 'opacity 500ms ease 0s'
             }}
-            onLoad={(e: ChangeEvent<HTMLImageElement>) => (e.target.style.opacity = '1')}
           />
         </picture>
       </div>
@@ -51,7 +53,7 @@ const Image: NextPage = props => {
   );
 };
 
-Image.getInitialProps = async context => {
+Image.getInitialProps = async (context): Promise<any> => {
   const { data } = await axios({
     url: `http://localhost:4000/image/${context.query.id}`
   });

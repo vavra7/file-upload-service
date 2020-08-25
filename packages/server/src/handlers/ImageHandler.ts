@@ -31,6 +31,13 @@ class ImageHandler {
   }
 
   /**
+   * Get image list
+   */
+  static async list(): Promise<IImage[]> {
+    return ImageManager.list();
+  }
+
+  /**
    * Processing images after upload
    * @param buffer
    * @param fullOriginalName

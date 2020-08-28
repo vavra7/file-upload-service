@@ -1,0 +1,31 @@
+@import './variables';
+
+@mixin xs-up {
+  @media (min-width: map-get($breakpoints-min, 'xs')) {
+    @content;
+  }
+}
+
+@mixin sm-up {
+  @media (min-width: map-get($breakpoints-min, 'sm')) {
+    @content;
+  }
+}
+
+@mixin md-up {
+  @media (min-width: map-get($breakpoints-min, 'md')) {
+    @content;
+  }
+}
+
+@mixin lg-up {
+  @media (min-width: map-get($breakpoints-min, 'lg')) {
+    @content;
+  }
+}
+
+@mixin xl-up {
+  @media (min-width: map-get($breakpoints-min, 'xl')) {
+    @content;
+  }
+}

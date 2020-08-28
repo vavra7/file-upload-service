@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { NextPage } from 'next';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import Layout1 from '../components/layouts/Layout1';
 
 const index: NextPage = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -34,16 +35,16 @@ const index: NextPage = () => {
   };
 
   return (
-    <>
+    <Layout1>
       <form onSubmit={handleSubmit}>
         <h1>File Upload</h1>
 
         <label htmlFor="file">File: </label>
-        <input id="file" type="file" onChange={onFileSelect} /* accept="image/*"  */ />
+        <input id="file" onChange={onFileSelect} type="file" /* accept="image/*"  */ />
 
         <button type="submit">Submit</button>
       </form>
-    </>
+    </Layout1>
   );
 };
 

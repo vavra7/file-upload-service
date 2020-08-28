@@ -1,0 +1,21 @@
+$xs: 0px;
+$sm: 600px;
+$md: 960px;
+$lg: 1210px;
+$xl: 1500px;
+
+$breakpoints-min: (
+	'xs': $xs,
+	'sm': $sm,
+	'md': $md,
+	'lg': $lg,
+	'xl': $xl
+);
+
+$breakpoints-max: (
+	'xs': $sm - 1,
+	'sm': $md - 1,
+	'md': $lg - 1,
+	'lg': $xl - 1,
+	'xl': 99999px
+);

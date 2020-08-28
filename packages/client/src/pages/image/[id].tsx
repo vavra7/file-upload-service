@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { NextPage } from 'next';
 import Img from '../../components/common/Img';
+import Layout1 from '../../components/layouts/Layout1';
 
 const Image: NextPage = props => {
   const {
@@ -8,9 +9,9 @@ const Image: NextPage = props => {
   } = props as any;
 
   return (
-    <>
+    <Layout1>
       <Img imgSrc={{ tracedSvg, srcsetType, srcset, src, originalName, aspectRatio }} />
-    </>
+    </Layout1>
   );
 };
 

@@ -1,35 +1,40 @@
 import axios from 'axios';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import AspectRatio from '../../components/common/AspectRatio';
 import Img from '../../components/common/Img';
+import Layout1 from '../../components/layouts/Layout1';
+import scopedStyles from './index.module.scss';
 
 const ImageList: NextPage = props => {
   const { images } = props as any;
 
   return (
-    <>
+    <Layout1>
       <h1>Image List</h1>
 
-      {images.map(image => (
-        <div key={image._id} style={{ marginBottom: '20px' }}>
-          <Link as={'/image/' + image._id} href={'/image/[id]'}>
-            <div style={{ width: '300px', height: '300px' }}>
-              <Img
-                cover
-                imgSrc={{
-                  tracedSvg: image.tracedSvg,
-                  srcsetType: image.srcsetType,
-                  srcset: image.srcset,
-                  src: image.src,
-                  originalName: image.originalName,
-                  aspectRatio: image.aspectRatio
-                }}
-              />
-            </div>
+      <div className={scopedStyles['gallery']}>
+        {images.map(image => (
+          <Link as={'/image/' + image._id} href={'/image/[id]'} key={image._id}>
+            <a>
+              <AspectRatio aspectRatio={1}>
+                <Img
+                  cover
+                  imgSrc={{
+                    tracedSvg: image.tracedSvg,
+                    srcsetType: image.srcsetType,
+                    srcset: image.srcset,
+                    src: image.src,
+                    originalName: image.originalName,
+                    aspectRatio: image.aspectRatio
+                  }}
+                />
+              </AspectRatio>
+            </a>
           </Link>
-        </div>
-      ))}
-    </>
+        ))}
+      </div>
+    </Layout1>
   );
 };
 

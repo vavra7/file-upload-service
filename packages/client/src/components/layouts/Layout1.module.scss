@@ -1,0 +1,32 @@
+.header {
+  background: rgb(100, 100, 100);
+  padding: 30px 20px;
+}
+
+.logo {
+  font-size: clamp(20px, 5vw, 35px);
+  font-weight: normal;
+  margin: 0.5em 0 0.6em 0;
+  color: rgb(54, 54, 54);
+  cursor: pointer;
+
+  .bold {
+    font-weight: 900;
+  }
+}
+
+.main-nav > * {
+  display: inline-block;
+  margin-right: 15px;
+  text-decoration: none;
+  color: rgb(187, 187, 187);
+  line-height: 2em;
+}
+
+.active {
+  color: rgb(219, 219, 219);
+}
+
+.main-content {
+  padding: 5% 10%;
+}

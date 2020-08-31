@@ -1,11 +1,11 @@
-import { NextPage } from 'next';
+import { FC } from 'react';
 import scopedStyles from './AspectRatio.module.scss';
 
 interface Props {
   aspectRatio: number;
 }
 
-const AspectRatio: NextPage<Props> = ({ children, aspectRatio }) => {
+const AspectRatio: FC<Props> = ({ children, aspectRatio }) => {
   return (
     <div
       className={scopedStyles['aspect-ratio-outer']}

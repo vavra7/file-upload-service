@@ -6,8 +6,7 @@
 .logo {
   font-size: clamp(20px, 5vw, 35px);
   font-weight: normal;
-  margin: 0.5em 0 0.6em 0;
-  color: rgb(54, 54, 54);
+  margin: 0.2em 0 0.6em 0;
   cursor: pointer;
 
   .bold {
@@ -17,7 +16,7 @@
 
 .main-nav > * {
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 1em;
   text-decoration: none;
   color: rgb(187, 187, 187);
   line-height: 2em;

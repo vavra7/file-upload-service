@@ -28,6 +28,7 @@ const ImageList: NextPage = props => {
                     originalName: image.originalName,
                     aspectRatio: image.aspectRatio
                   }}
+                  sizes="400px"
                 />
               </AspectRatio>
             </a>

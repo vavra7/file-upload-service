@@ -1,0 +1,17 @@
+.file-input {
+  display: none;
+}
+
+.drop-zone {
+  height: 20vh;
+  background: rgb(245, 245, 245);
+  outline: dashed 2px rgb(224, 224, 224);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.active {
+  background: rgb(250, 250, 250);
+}

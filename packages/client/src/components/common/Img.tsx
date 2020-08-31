@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from 'react';
 
-interface IImg {
+interface ImgSrc {
   tracedSvg: string;
   srcsetType: string;
   srcset: string;
@@ -10,11 +10,12 @@ interface IImg {
 }
 
 interface Props {
-  imgSrc: IImg;
+  imgSrc: ImgSrc;
   cover?: boolean;
+  sizes?: string;
 }
 
-const Img: FC<Props> = ({ imgSrc, cover }) => {
+const Img: FC<Props> = ({ imgSrc, cover, sizes }) => {
   const { tracedSvg, srcsetType, srcset, src, originalName, aspectRatio } = imgSrc;
   const coverStyle = cover ? { width: '100%', height: '100%' } : {};
 
@@ -36,13 +37,14 @@ const Img: FC<Props> = ({ imgSrc, cover }) => {
         }}
       />
       <picture>
-        <source srcSet={srcset} type={srcsetType} />
+        <source sizes={sizes} srcSet={srcset} type={srcsetType} />
         <img
           alt={originalName}
           loading="lazy"
           onLoad={(e: ChangeEvent<HTMLImageElement>): void => {
             e.target.style.opacity = '1';
           }}
+          sizes={sizes}
           src={src}
           style={{
             position: 'absolute',

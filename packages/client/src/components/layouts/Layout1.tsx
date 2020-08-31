@@ -23,6 +23,13 @@ const Layout1: FC<Props> = ({ children }) => {
           <Link href="/">
             <a className={router.pathname == '/' ? scopedStyles['active'] : ''}>Home</a>
           </Link>
+
+          <Link href="/image/upload">
+            <a className={router.pathname == '/image/upload' ? scopedStyles['active'] : ''}>
+              Image Upload
+            </a>
+          </Link>
+
           <Link href="/image">
             <a className={router.pathname == '/image' ? scopedStyles['active'] : ''}>Images</a>
           </Link>

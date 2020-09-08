@@ -1,0 +1,25 @@
+@import '../../styles/mixins';
+
+.uploads-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  margin-top: 1em;
+  padding: 1em;
+  grid-gap: 1em;
+
+  @include md-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include xl-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .upload-item-wrapper {
+    overflow: hidden;
+  }
+}
+
+.actions {
+  text-align: right;
+}

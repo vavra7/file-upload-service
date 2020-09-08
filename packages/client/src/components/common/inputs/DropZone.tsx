@@ -33,6 +33,8 @@ const DropZone: FC<Props> = ({ onFileAdd, label, accept, multiple }) => {
     Array.prototype.forEach.call(fileList, (file: File) => {
       onFileAdd(file);
     });
+
+    e.target.value = '';
   };
 
   return (
